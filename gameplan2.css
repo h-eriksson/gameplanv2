@@ -1,0 +1,390 @@
+html, body {
+    --font-size: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    background-color: var(--background);
+    color: var(--color);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+[class ^="icon-"],[class *=" icon"] {
+    color: var(--color);
+    width: 2rem;
+    aspect-ratio: 1/1;
+    cursor: pointer;
+}
+
+/* General dropdown styling */
+#breakDropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    flex-direction: column;
+    height: 15rem;
+    width: 10rem;
+    border: 1px solid var(--border-strong);
+    background-color: var(--panel-background);
+    border-radius: 7px;
+    z-index: 1; /* Ensure it appears above other elements */
+}
+
+/* Show dropdown when the navItem or its children are focused */
+#breakTimeSection:focus-within > .navMenu {
+    display: flex;
+}
+
+#breakTimeSection:focus > .navMenu {
+    display: flex;
+}
+
+/* Scrollable content for breakTimes */
+#breakDropdown #breakTimes {
+    overflow-y: scroll;
+    max-height: calc(100% - 2rem); /* Adjust height for header spacing */
+}
+
+/* Styling for "De/Select all" */
+#breakDropdown #breakSelect {
+    display: flex;  
+    align-items: center;
+    justify-content: center;
+    color: var(--color);
+    padding: 0.5rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-strong);
+}
+
+/* Checkbox styling */
+#breakDropdown input[type="checkbox"] {
+    padding: 0%;
+    margin: 0;
+    appearance: none;
+    display: none;
+}
+
+#breakDropdown input[type="checkbox"] + label {
+    color: var(--color);
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    padding: 0.3rem;
+    margin: 0;
+    user-select: none;
+}
+
+#breakDropdown input[type="checkbox"] + label:hover {
+    color: var(--color);
+    background-color: var(--border-light);
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    padding: 0.3rem;
+    margin: 0;
+    user-select: none;
+}
+
+#breakDropdown input[type="checkbox"]:checked + label {
+    color: var(--border-strong);
+    border-left: 5px var(--info-color) solid;
+}
+
+
+a {
+    color: var(--color);
+}
+
+#topWrapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    background-color: var(--panel-background);
+    padding: 1rem;
+    display: flex;
+    justify-content: end;
+}
+
+.navItem{
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 0px 2rem;
+}
+
+.navItem > span{
+    padding: 0.3rem;
+}
+
+.navInput {
+    position: relative;
+    display: none; 
+}
+
+.navItem:focus-within > .navInput {
+    display: block;
+}
+
+.navInput > input[type="number"]{
+    font-size: 1.9rem;
+    width: 6rem;
+    background-color: var(--panel-background);
+    border: 0px;
+    outline: none;
+    color: var(--color);
+}
+
+.inputLabel{
+    position: absolute;
+    top: -0.5rem;
+    left: 0px;
+    color: var(--panel-background);
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    top: 3.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15rem;
+    background-color: var(--border-light);
+    color: var(--color);
+    border-radius: 7px;
+    border: 1px solid var(--border-light);
+}
+
+.tooltip-header {
+    font-weight: 900;
+}
+
+#counterWrapper{
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color);
+}
+
+#counter{
+    font-size: 10vw;
+    text-align: center;
+}
+
+#breakString{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 15vh;
+    color: red;
+    font-weight: 900;
+    translate: -50% -50%;
+    transform: rotate(-45deg);
+    transform-origin: center;
+}
+
+#footer {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    position: absolute;
+    bottom: 0px;
+    height: 8rem;
+    width: 100%;
+    padding: 2rem;
+    background-color: var(--panel-background);
+}
+
+#sidePanel {
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    right: 1rem;
+    font-size: 1.5rem;
+    overflow: hidden;
+}
+
+#milestoneList {
+    position: relative;
+    overflow: hidden;
+    max-height: 11.5rem;
+}
+
+#milestoneOverlay {
+    position: absolute;
+    top: 1.5rem;
+    left: 0;
+    width: 100%;
+    height: 88%;
+}
+
+/* Overlay for fading effect */
+#milestoneOverlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%; /* Fade starts at the middle */
+    background: linear-gradient(to bottom, var(--background) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+#milestoneOverlay::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%; /* Fade ends at the middle */
+    background: linear-gradient(to top, var(--background) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.milestone {
+    font-size: 1rem;
+    text-align: left;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+    transition: opacity 0.3s ease-in-out;
+}
+
+.milestone:first-child {
+    padding-top: 5rem;
+}
+
+.milestone:last-child {
+    border-bottom: none; /* Remove bottom border for the last item */
+    padding-bottom: 5rem;
+}
+
+input[type="time"]{
+    font-size: 1.8rem;
+    width: 9rem;
+    background-color: var(--panel-background);
+    border: 0px;
+    outline: none;
+    color: var(--color);
+    padding-left: 1rem;
+}
+
+#settingsMenu {
+    position: absolute;
+    right: 0rem;
+    top: 4rem;
+    width: 17rem;
+    display: none;
+    flex-direction: column;
+    border: 1px solid var(--border-strong);
+    border-radius: 7px;
+    z-index: 1;
+    background-color: var(--panel-background);
+    margin: 0;
+}
+
+#settings:focus-within > #settingsMenu {
+    display: flex;
+}
+
+#settings:focus > #settingsMenu {
+    display: flex;
+}
+
+#settingsMenu > .settingsItem {
+    display: flex;
+    background-color: var(--panel-background);
+    height: 3rem;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 1rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.settingsLabel {
+    width: 70%;
+}
+
+.settingsValue {
+    width: 30%;
+}
+
+.milestoneIntervalMin {
+    color: var(--disabled-color);
+}
+
+.selected {
+    color: var(--color);
+}
+
+.switch {
+    box-sizing: border-box;
+    position: relative;
+    height: 1.5rem;
+    width: 3rem;
+    border: 1px var(--text-color) solid;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 3rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.switch:not(:checked):before {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.1rem;
+    border-radius: 50%;
+    content: ' ';
+    background-color: grey;
+    width: 1.2rem;
+    aspect-ratio: 1/1;
+    transition: left 0.25 ease-in-out;
+}
+
+.switch:checked::before{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0.1rem;
+    border-radius: 50%;
+    content: ' ';
+    background-color: green;
+    width: 1.2rem;
+    aspect-ratio: 1/1;
+}
+
+.perHour {
+    position: absolute;
+    bottom: -3rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#taskProgress {
+    bottom: 8rem;
+}
+ #timeProgress {
+    bottom: 8.5rem;
+ }
+
+.progress {
+    position: absolute;
+    left: 0px;
+    width: 0%;
+    min-height: 0.5rem;
+    background-color: var(--border-strong);
+    transition-timing-function: linear;
+}

@@ -1,0 +1,119 @@
+/* Monochrome Theme - Light Mode */
+body[data-theme="monochrome"][data-brightness="light"] {
+    --background: rgba(255, 255, 255, 1);           /* White */
+    --color: rgba(0, 0, 0, 1);                      /* Black */
+    --header-background: rgba(240, 240, 240, 1);    /* Light Gray */
+    --header-color: rgba(0, 0, 0, 1);               /* Black */
+    --panel-background: rgba(245, 245, 245, 1);     /* Very Light Gray */
+    --panel-color: rgba(0, 0, 0, 1);                /* Black */
+    --border-light: rgba(200, 200, 200, 1);         /* Light Gray */
+    --border-strong: rgba(100, 100, 100, 1);        /* Dark Gray */
+    --button-background: rgba(230, 230, 230, 1);    /* Light Gray */
+    --button-color: rgba(0, 0, 0, 1);               /* Black */
+    --switch-on-background: rgba(0, 150, 0, 1);     /* Green */
+    --switch-on-thumb: rgba(255, 255, 255, 1);      /* White */
+    --switch-off-background: rgba(200, 200, 200, 1);/* Light Gray */
+    --switch-off-thumb: rgba(255, 255, 255, 1);     /* White */
+    --item-selection-light: rgba(220, 220, 220, 1); /* Light Gray */
+    --item-selection-strong: rgba(180, 180, 180, 1);/* Gray */
+    --link-color: rgba(0, 0, 238, 1);               /* Standard Link Blue */
+    --link-hover-color: rgba(0, 0, 139, 1);         /* Darker Blue */
+    --disabled-color: rgba(170, 170, 170, 1);       /* Medium Gray */
+    --input-background: rgba(255, 255, 255, 1);     /* White */
+    --input-color: rgba(0, 0, 0, 1);                /* Black */
+    --input-border: rgba(200, 200, 200, 1);         /* Light Gray */
+    --success-color: rgba(0, 128, 0, 1);            /* Green */
+    --error-color: rgba(255, 0, 0, 1);              /* Red */
+    --warning-color: rgba(255, 165, 0, 1);          /* Orange */
+    --info-color: rgba(30, 144, 255, 1);            /* Dodger Blue */
+  }
+  
+  /* Monochrome Theme - Dark Mode */
+  body[data-theme="monochrome"][data-brightness="dark"] {
+    --background: rgba(34, 34, 34, 1);              /* Dark Gray */
+    --color: rgba(255, 255, 255, 1);                /* White */
+    --header-background: rgba(51, 51, 51, 1);       /* Darker Gray */
+    --header-color: rgba(255, 255, 255, 1);         /* White */
+    --panel-background: rgba(40, 40, 40, 1);        /* Dark Gray */
+    --panel-color: rgba(255, 255, 255, 1);          /* White */
+    --border-light: rgba(80, 80, 80, 1);            /* Medium Gray */
+    --border-strong: rgba(160, 160, 160, 1);        /* Light Gray */
+    --button-background: rgba(60, 60, 60, 1);       /* Dark Gray */
+    --button-color: rgba(255, 255, 255, 1);         /* White */
+    --switch-on-background: rgba(0, 150, 0, 1);     /* Green */
+    --switch-on-thumb: rgba(255, 255, 255, 1);      /* White */
+    --switch-off-background: rgba(80, 80, 80, 1);   /* Medium Gray */
+    --switch-off-thumb: rgba(255, 255, 255, 1);     /* White */
+    --item-selection-light: rgba(70, 70, 70, 1);    /* Dark Gray */
+    --item-selection-strong: rgba(100, 100, 100, 1);/* Gray */
+    --link-color: rgba(100, 149, 237, 1);           /* Cornflower Blue */
+    --link-hover-color: rgba(72, 61, 139, 1);       /* Dark Slate Blue */
+    --disabled-color: rgba(110, 110, 110, 1);       /* Medium Gray */
+    --input-background: rgba(50, 50, 50, 1);        /* Dark Gray */
+    --input-color: rgba(255, 255, 255, 1);          /* White */
+    --input-border: rgba(80, 80, 80, 1);            /* Medium Gray */
+    --success-color: rgba(0, 128, 0, 1);            /* Green */
+    --error-color: rgba(255, 0, 0, 1);              /* Red */
+    --warning-color: rgba(255, 165, 0, 1);          /* Orange */
+    --info-color: rgba(100, 149, 237, 1);           /* Cornflower Blue */
+  }
+  
+  /* Desert Theme - Light Mode */
+body[data-theme="desert"][data-brightness="light"] {
+  --background: rgba(250, 235, 215, 1);            /* Antique White */
+  --color: rgba(77, 38, 0, 1);                     /* Dark Brown */
+  --header-background: rgba(237, 201, 175, 1);     /* Sand */
+  --header-color: rgba(77, 38, 0, 1);              /* Dark Brown */
+  --panel-background: rgba(245, 222, 179, 1);      /* Wheat */
+  --panel-color: rgba(77, 38, 0, 1);               /* Dark Brown */
+  --border-light: rgba(210, 180, 140, 1);          /* Tan */
+  --border-strong: rgba(160, 82, 45, 1);           /* Sienna */
+  --button-background: rgba(222, 184, 135, 1);     /* Burlywood */
+  --button-color: rgba(77, 38, 0, 1);              /* Dark Brown */
+  --switch-on-background: rgba(205, 133, 63, 1);   /* Peru */
+  --switch-on-thumb: rgba(255, 255, 255, 1);       /* White */
+  --switch-off-background: rgba(222, 184, 135, 1); /* Burlywood */
+  --switch-off-thumb: rgba(255, 255, 255, 1);      /* White */
+  --item-selection-light: rgba(244, 164, 96, 0.3); /* Sandy Brown with transparency */
+  --item-selection-strong: rgba(244, 164, 96, 0.6);/* More opaque Sandy Brown */
+  --link-color: rgba(139, 69, 19, 1);              /* Saddle Brown */
+  --link-hover-color: rgba(160, 82, 45, 1);        /* Sienna */
+  --disabled-color: rgba(205, 175, 149, 1);        /* Rosy Brown */
+  --input-background: rgba(255, 248, 220, 1);      /* Cornsilk */
+  --input-color: rgba(77, 38, 0, 1);               /* Dark Brown */
+  --input-border: rgba(210, 180, 140, 1);          /* Tan */
+  --success-color: rgba(34, 139, 34, 1);           /* Forest Green */
+  --error-color: rgba(178, 34, 34, 1);             /* Firebrick */
+  --warning-color: rgba(218, 165, 32, 1);          /* Goldenrod */
+  --info-color: rgba(70, 130, 180, 1);             /* Steel Blue */
+}
+
+/* Desert Theme - Dark Mode */
+body[data-theme="desert"][data-brightness="dark"] {
+  --background: rgba(77, 38, 0, 1);                /* Dark Brown */
+  --color: rgba(245, 222, 179, 1);                 /* Wheat */
+  --header-background: rgba(92, 51, 23, 1);        /* Darker Brown */
+  --header-color: rgba(245, 222, 179, 1);          /* Wheat */
+  --panel-background: rgba(102, 51, 0, 1);         /* Saddle Brown */
+  --panel-color: rgba(245, 222, 179, 1);           /* Wheat */
+  --border-light: rgba(160, 82, 45, 1);            /* Sienna */
+  --border-strong: rgba(210, 105, 30, 1);          /* Chocolate */
+  --button-background: rgba(139, 69, 19, 1);       /* Saddle Brown */
+  --button-color: rgba(245, 222, 179, 1);          /* Wheat */
+  --switch-on-background: rgba(210, 105, 30, 1);   /* Chocolate */
+  --switch-on-thumb: rgba(77, 38, 0, 1);           /* Dark Brown */
+  --switch-off-background: rgba(139, 69, 19, 1);   /* Saddle Brown */
+  --switch-off-thumb: rgba(77, 38, 0, 1);          /* Dark Brown */
+  --item-selection-light: rgba(205, 133, 63, 0.3); /* Peru with transparency */
+  --item-selection-strong: rgba(205, 133, 63, 0.6);/* More opaque Peru */
+  --link-color: rgba(222, 184, 135, 1);            /* Burlywood */
+  --link-hover-color: rgba(245, 222, 179, 1);      /* Wheat */
+  --disabled-color: rgba(160, 82, 45, 1);          /* Sienna */
+  --input-background: rgba(92, 51, 23, 1);         /* Darker Brown */
+  --input-color: rgba(245, 222, 179, 1);           /* Wheat */
+  --input-border: rgba(139, 69, 19, 1);            /* Saddle Brown */
+  --success-color: rgba(34, 139, 34, 1);           /* Forest Green */
+  --error-color: rgba(178, 34, 34, 1);             /* Firebrick */
+  --warning-color: rgba(218, 165, 32, 1);          /* Goldenrod */
+  --info-color: rgba(205, 175, 149, 1);            /* Rosy Brown */
+}

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Gameplan V2</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="colorscheme.css">
+        <link rel="stylesheet" href="gameplan2.css">
+        <script src="gameplan2.js" defer></script>
+        <script src="operator.js" defer></script>
+    </head>
+    <body data-theme="monochrome" data-brightness="">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <div id="topWrapper">
+            <div id="startTimeSection" class="navItem">
+                <span class="icon-start icon-input icon" tabindex="0">
+                    <svg
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:svg="http://www.w3.org/2000/svg">
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="M 11.09375,1.03125 1,1 0.96875,31 11.0625,31.0625"
+                            id="startBracket" />
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:3.208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="M 15.55017,9.2437739 7.8853904,16.031249 15.55017,22.818725"
+                            id="startArrowHead" />
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:3.208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="M 8.1302114,16.031249 H 29.448465"
+                            id="startArrow" />
+                    </svg>
+                </span>
+                <span id="startInput" class="navInput">
+                    <input type="time" name="startTime" id="startTime" pattern="[0-9]{2}:[0-9]{2}">
+                    <label for="startTime" class="inputLabel">Start Time</label>
+                </span>
+                <span class="tooltip">
+                    <span class="tooltip-header">Start time</span><br>
+                    This signifies when the clock starts counting
+                </span>
+            </div>
+            <div id="endTimeSection" class="navItem">
+                <span class="icon-end icon-input icon" tabindex="0">
+                    <svg
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:svg="http://www.w3.org/2000/svg">
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="M 20.899733,1.03125 30.993483,1 l 0.03125,30 -10.09375,0.0625"
+                            id="endBracket" />
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:3.208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="m 16.443313,9.2437739 7.66478,6.7874751 -7.66478,6.787476"
+                            id="endArrowHead" />
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:3.208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="M 23.863272,16.031249 H 2.5450225"
+                            id="endArrow" />
+                    </svg>
+                </span>
+                <span id="endInput" class="navInput">
+                    <input type="time" name="endTime" id="endTime" pattern="[0-9]{2}:[0-9]{2}">
+                    <label for="endTime" class="inputLabel">End Time</label>
+                </span>
+                <span class="tooltip">
+                    <span class="tooltip-header">End time</span><br>
+                    This signifies when the clock stops counting
+                </span>
+            </div>
+
+            <div id="breakTimeSection" class="navItem" tabindex="0">
+                <span class="icon-end icon-input icon">
+                    <svg
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:svg="http://www.w3.org/2000/svg">
+                        <circle
+                            style="fill:none;fill-opacity:1;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+                            id="path1844"
+                            cx="10.554363"
+                            cy="15.302119"
+                            r="9.1197891" />
+                        <path
+                            style="fill:none;fill-opacity:1;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+                            d="m 10.861772,11.988936 v 4.132939 L 9.6833718,17.64184"
+                            id="path1846" />
+                        <path
+                            style="fill:none;fill-opacity:1;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+                            d="M 26.505455,5.5675118 V 27.120272"
+                            id="path1848" />
+                        <path
+                            style="fill:none;fill-opacity:1;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+                            d="M 22.987334,6.2506421 V 10.48605 c 0,0 0.614817,3.449808 3.586434,3.449808 2.971617,0 3.483965,-3.449808 3.483965,-3.449808 V 6.2506421"
+                            id="path1850" />
+                        <circle
+                            style="fill:none;fill-opacity:1;stroke:currentColor;stroke-width:2.26387;stroke-linecap:round;stroke-linejoin:round"
+                            id="path1852"
+                            cx="10.554363"
+                            cy="15.302119"
+                            r="6.3407245" />
+                    </svg>
+                </span>
+                <span id="breakDropdown" class="navMenu">
+                    <span id="breakSelect">De/Select all</span>
+                    <div id="breakTimes" tabindex="0">
+            
+                    </div>
+                </span>
+                <span class="tooltip">
+                    <span class="tooltip-header">Break time</span><br>
+                    The counter will suspend at the times given, in 5 minute intervals.
+                </span>
+            </div>
+
+            <div id="timeGoalSection" class="navItem">
+                <span class="icon-clock icon-input icon" tabindex="0">
+                    <svg
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <circle
+                            style="fill:none;stroke:currentColor;stroke-width:1.93639;stroke-dasharray:none"
+                            id="path896"
+                            cx="16.00605"
+                            cy="15.978026"
+                            r="14.997286" />
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:1.93639;stroke-linecap:round;stroke-dasharray:none"
+                            d="M 16.353826,4.5911672 V 16.231839 l -6.184107,6.184107"
+                            id="path1053" />
+                    </svg>
+                </span>
+                <span id="timeInput" class="navInput">
+                    <input type="time" name="timeGoal" id="timeGoal" pattern="[0-9]{2}:[0-9]{2}">
+                    <label for="timeGoal" class="inputLabel">Goal Time</label>
+                </span>
+                <span id="timeGoalPerHour" class="perHour"></span>
+                <span class="tooltip">
+                    <span class="tooltip-header">Goal time</span><br>
+                    This is the time aimed for.
+                </span>
+            </div>
+
+            <div id="tasksGoal" class="navItem">
+                <span class="icon-tasks icon-input icon" tabindex="0">
+                    <svg
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:svg="http://www.w3.org/2000/svg">
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="M 11.799844,6.8942911 H 28.107495"
+                            id="path3505" />
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="m 12.076058,16.528621 h 16.30765"
+                            id="path3505-7" />
+                        <path
+                            style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="M 12.396465,26.16295 H 28.704116"
+                            id="path3505-0" />
+                        <circle
+                            style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            id="path3596"
+                            cx="5.2149124"
+                            cy="6.8942909"
+                            r="1.6793786" />
+                        <circle
+                            style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            id="path3596-4"
+                            cx="5.2149124"
+                            cy="16.528622"
+                            r="1.6793786" />
+                        <circle
+                            style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            id="path3596-1"
+                            cx="5.2149124"
+                            cy="26.162951"
+                            r="1.6793786" />
+                    </svg>
+                </span>
+                <span id="tasksInput" class="navInput">
+                    <input type="number" name="goalTasks" id="goalTasks">
+                    <label for="goalTasks" class="inputLabel">Goal Tasks</label>
+                </span>
+                <span id="goalTasksPerHour" class="perHour"></span>
+                <span class="tooltip">
+                    <span class="tooltip-header">Goal tasks</span><br>
+                    This is the amount of tasks aimed for within the times-pan.
+                </span>
+            </div>
+
+            <div id="darkMode" class="navItem">
+                <span class="icon-darkMode icon" tabindex="0">
+                    <svg
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:svg="http://www.w3.org/2000/svg">
+                        <circle
+                            style="fill:none;stroke:currentColor;stroke-width:1.88735;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            id="path3669"
+                            cx="16.03125"
+                            cy="16.03125"
+                            r="15.025075" />
+                        <path
+                            style="fill:currentColor;fill-opacity:1;stroke:currentColor;stroke-width:2.11529;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                            d="M 16.403615,4.8413834 V 27.05192 c 0,0 10.510344,-3.205339 10.510344,-11.204424 0,-7.832965 -10.510344,-11.0061126 -10.510344,-11.0061126 z"
+                            id="path3671" />
+                    </svg>
+                </span>
+                <span class="tooltip">
+                    <span class="tooltip-header">Dark/Light mode</span><br>
+                    Changes the colorscheme to your preference.
+                </span>
+            </div>
+            <div id="settings" class="navItem">
+                <span class="icon-settings icon" tabindex="0">
+                    <svg
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:svg="http://www.w3.org/2000/svg">
+                        <path
+                            style="fill:currentColor;fill-opacity:1;stroke:currentColor;stroke-width:0.2;stroke-opacity:1"
+                            d="M 14.100389,31.968145 C 13.483298,31.876635 12.894764,31.588019 12.439702,31.153744 11.836341,30.577943 11.53723,29.898608 11.494853,29.00785 l -0.0182,-0.382866 -0.204983,-0.078 C 10.073056,28.090835 8.8116462,27.366834 7.7428785,26.521614 L 7.4393045,26.281537 7.0528761,26.475265 C 6.6119456,26.696327 6.3107204,26.790211 5.908692,26.831873 4.8401592,26.942629 3.7249828,26.428112 3.1279249,25.548913 2.960073,25.30174 1.410993,22.611265 1.3175886,22.404697 1.1099049,21.945357 1.0181838,21.380116 1.0706504,20.882902 c 0.109386,-1.036726 0.6736291,-1.877933 1.6132709,-2.405192 0.124213,-0.06968 0.1681749,-0.108819 0.1588481,-0.14133 -0.025641,-0.08925 -0.096301,-0.60064 -0.1422988,-1.028857 -0.058133,-0.541509 -0.066354,-1.906031 -0.01468,-2.432429 0.035526,-0.361952 0.1323359,-1.086335 0.1553542,-1.162691 0.00881,-0.02926 -0.043747,-0.07457 -0.1718155,-0.148141 -0.8510231,-0.488915 -1.3672526,-1.19029 -1.5697984,-2.132838 -0.021041,-0.09787 -0.034253,-0.334784 -0.032688,-0.587614 0.00196,-0.364242 0.012527,-0.461219 0.073694,-0.691825 C 1.1796841,10.004469 1.2528887,9.7892391 1.3032609,9.6736972 1.4320638,9.3781776 3.0201242,6.6353144 3.1999159,6.39783 3.7035402,5.7325783 4.4711805,5.3045955 5.325766,5.2125809 c 0.6161323,-0.066354 1.2428342,0.074281 1.8500312,0.4152012 0.1298306,0.072911 0.2437283,0.1325219 0.253104,0.1325219 0.00979,0 0.1614318,-0.1148275 0.3378862,-0.2551591 C 8.7829809,4.6969875 9.8872059,4.0562123 11.121334,3.5585482 l 0.355306,-0.1432775 0.0182,-0.380018 C 11.53741,2.1471575 11.837209,1.4671669 12.439689,0.89219765 12.906456,0.4467554 13.48672,0.16640524 14.12592,0.07750274 c 0.285106,-0.0396362 3.572101,-0.0396362 3.857217,0 1.277078,0.17761905 2.303088,1.13311536 2.567554,2.39111896 0.02505,0.1193391 0.05373,0.3807813 0.06371,0.5809881 l 0.01801,0.3640069 0.450962,0.1855757 c 0.577485,0.2376507 0.854713,0.3678727 1.296612,0.6090369 0.710408,0.3877006 1.44816,0.8769286 2.016268,1.3370313 0.146038,0.1182724 0.275173,0.2148183 0.286976,0.2145443 0.01184,-2.74e-4 0.129204,-0.060971 0.260894,-0.1349 0.433346,-0.243239 0.80807,-0.3648683 1.268378,-0.4116879 1.053481,-0.1071645 2.176565,0.4119717 2.764619,1.2779098 0.164074,0.2416143 1.723293,2.9487952 1.814339,3.1501372 0.207684,0.459281 0.299415,1.024565 0.246948,1.521789 -0.108192,1.025314 -0.667816,1.87211 -1.580358,2.391314 -0.142524,0.08113 -0.199238,0.128108 -0.190381,0.157831 0.01938,0.06498 0.116706,0.795493 0.154953,1.162896 0.04433,0.426387 0.04433,1.869379 0,2.295777 -0.03866,0.371679 -0.135673,1.098265 -0.155423,1.164364 -0.0098,0.03181 0.04903,0.07986 0.212959,0.174849 0.587751,0.340705 1.005213,0.784347 1.277753,1.357907 0.37488,0.788916 0.392604,1.711989 0.04805,2.504263 -0.128333,0.295138 -1.716501,3.038118 -1.896704,3.275867 -0.747636,0.986403 -2.037946,1.421314 -3.227785,1.087969 -0.131964,-0.03699 -0.411698,-0.154092 -0.624931,-0.261657 l -0.386027,-0.194736 -0.324576,0.257762 c -0.633846,0.50337 -1.267878,0.921302 -1.991743,1.312907 -0.465603,0.251881 -0.686694,0.35561 -1.270873,0.596236 l -0.450962,0.185752 -0.0182,0.379186 c -0.04316,0.899565 -0.344894,1.573977 -0.967916,2.163725 -0.377004,0.356853 -0.793076,0.583806 -1.348628,0.735608 l -0.261658,0.07144 -1.885811,0.0049 c -1.037206,0.0029 -1.959613,-0.0059 -2.049808,-0.01928 z m 2.801398,-10.263501 c 2.208293,-0.310866 4.04567,-1.899239 4.65963,-4.028172 0.170024,-0.589562 0.216736,-0.945906 0.216736,-1.653504 0,-0.533249 -0.0098,-0.681713 -0.06224,-0.978721 -0.213928,-1.204069 -0.701717,-2.17403 -1.519984,-3.022489 -0.887645,-0.920401 -1.99879,-1.48668 -3.307831,-1.685791 -0.409035,-0.06224 -1.258816,-0.06215 -1.667176,1.07e-4 -0.648096,0.09884 -1.165118,0.260465 -1.74916,0.546805 -0.6199,0.303926 -1.093714,0.654398 -1.602055,1.185033 -1.052816,1.09897 -1.601127,2.573064 -1.54681,4.158492 0.05285,1.542356 0.645395,2.889566 1.731886,3.937576 0.47032,0.453653 0.899331,0.753293 1.471638,1.02785 1.047981,0.502753 2.201629,0.678023 3.375339,0.512804 z"
+                            id="path1645" />
+                    </svg>
+                </span>
+                <span id="settingsMenu" tabindex="0">
+                    <div class="settingsItem" tabindex="0">
+                        <div class="settingsLabel" tabindex="0">Dark Mode</div>
+                        <div class="settingsValue">
+                            <input type="checkbox" name="darkModeCheck" id="darkModeCheck" class="switch">
+                        </div>
+                    </div>
+                    <div class="settingsItem">
+                        <div class="settingsLabel" tabindex="0">Display milestones</div>
+                        <div class="settingsValue">
+                            <input type="checkbox" name="milestonesCheck" id="milestonesCheck" class="switch">
+                        </div>
+                    </div>
+                    <div class="settingsItem">
+                        <div class="settingsLabel" tabindex="0">Milestone interval</div>
+                        <div class="settingsValue">
+                            <span id="milestoneInterval" tabindex="0">
+                                <span class="milestoneIntervalMin selected" data-interval="5">5 </span>|
+                                <span class="milestoneIntervalMin" data-interval="10">10 </span>|
+                                <span class="milestoneIntervalMin" data-interval="30">30</span>
+                            </span>
+                        </div>
+                    </div>
+                </span>
+                <span class="tooltip">
+                    <span class="tooltip-header">Settings</span><br>
+                    Various settings that can alter how the page works.
+                </span>
+            </div>
+        </div>
+
+        <div id="counterWrapper">
+            <span id="counter">
+                <span id="time"></span><br>
+                <span id="tasks"></span>
+            </span>
+        </div>
+
+        <div id="sidePanel">
+            <div id="milestoneTitle">Next milestone (<span id="milestoneTitleMinutes"></span> min):</div>
+            <div id="milestoneOverlay"></div>
+            <div id="milestoneList">
+                <!-- Dynamically built list -->
+            </div>
+        </div>
+
+        <div id="taskProgress" class="progress"></div>
+        <div id="timeProgress" class="progress"></div>
+
+        <div id="breakString">
+            BREAK!
+        </div>
+
+        <div id="footer">
+            <span><a href="https://github.com/h-eriksson/gameplan">&copy; Henrik Eriksson 2024</a><br> Updated: <span id="updated"></span></span>
+        </div>
+    </body>
+</html>
