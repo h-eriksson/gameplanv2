@@ -367,6 +367,29 @@
                 const timeToNextMilestone = milestoneTime - currentTime;
                 milestoneTimeout = setTimeout(() => {
                     centerMilestones();
+
+                    const milestoneProgress = document.getElementById("milestoneProgress");
+
+                    // Reset the progress bar immediately
+                    milestoneProgress.style.transitionDuration = "0s";
+                    milestoneProgress.style.width = "0%";
+                
+                    // Use requestAnimationFrame to force the browser to render the reset state
+                    requestAnimationFrame(() => {
+                        const elapsedRatio =
+                            (currentTime - milestoneTime) / (milestoneInterval * 60 * 1000);
+                
+                        // Set the current progress width without transition
+                        milestoneProgress.style.width = `${elapsedRatio * 100}%`;
+                
+                        // Apply the animation to 100% width
+                        requestAnimationFrame(() => {
+                            milestoneProgress.style.transitionProperty = "width";
+                            milestoneProgress.style.transitionDuration = `${milestoneTime - currentTime}ms`;
+                            milestoneProgress.style.width = "100%";
+                        });
+                    });
+
                 }, timeToNextMilestone);
             }
         });

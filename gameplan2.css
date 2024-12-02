@@ -269,6 +269,15 @@ a {
     padding-bottom: 5rem;
 }
 
+#milestoneProgress {
+    position: absolute;
+    top: 63%;
+    left: 0px;
+    min-height: 0.2rem;
+    background-color: var(--border-strong);
+    transition-timing-function: linear;
+}
+
 input[type="time"]{
     font-size: 1.8rem;
     width: 9rem;
