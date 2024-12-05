@@ -121,6 +121,14 @@
         localStorage.setItem("Milestones", event.target.checked);
     });
 
+    const progressToggleMenu = document.getElementById("progressCheck");
+    progressToggleMenu.addEventListener("change", (event) => {
+        const progressSection = document.getElementsByClassName("progress");
+        Array.from(progressSection).forEach((section) => {
+            section.style.display = event.target.checked ? "block" : "none";
+        });
+    });
+
     const milestoneIntervals = document.getElementsByClassName("milestoneIntervalMin");
     Array.from(milestoneIntervals).forEach((interval) => {
         interval.addEventListener("click", (event) => {

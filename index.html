@@ -250,6 +250,12 @@
                         </div>
                     </div>
                     <div class="settingsItem">
+                        <div class="settingsLabel" tabindex="0">Display progressbars</div>
+                        <div class="settingsValue">
+                            <input type="checkbox" name="progressCheck" id="progressCheck" class="switch">
+                        </div>
+                    </div>
+                    <div class="settingsItem">
                         <div class="settingsLabel" tabindex="0">Milestone interval</div>
                         <div class="settingsValue">
                             <span id="milestoneInterval" tabindex="0">
@@ -280,7 +286,7 @@
             <div id="milestoneList">
                 <!-- Dynamically built list -->
             </div>
-            <div id="milestoneProgress"></div>
+            <div id="milestoneProgress" class="progress"></div>
         </div>
 
         <div id="taskProgress" class="progress"></div>
