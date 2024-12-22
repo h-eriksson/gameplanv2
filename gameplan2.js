@@ -10,34 +10,65 @@ class Gameplan {
     #timeGoalTimeout
     #productivityGoalTimeout
     #breakTimeout
+
+    #totalTimeCache;
+    #totalBreakTimeCache;
     constructor() {
-        this.#startTime; // Date object. Start time of the gameplan.
-        this.#endTime; // Date object. End time of the gameplan. 
+        this.#startTime = null; // Date object. Start time of the gameplan.
+        this.#endTime = null; // Date object. End time of the gameplan. 
         this.#breakTimeArray = []; // Date objects. Array of break times. 
-        this.#timeGoal; // Number of milliseconds. Time goal of the gameplan. 
-        this.#productivityGoal; // Number. Productivity goal of the gameplan. 
-        this.#timeTicks // Array of integers. Precomputed milliseconds time-representations for the gameplan.
-        this.#productivityTicks // Array of integers. Precomputed milliseconds time-representations for the productivity goal.
+        this.#timeGoal = null; // Number of milliseconds. Time goal of the gameplan. 
+        this.#productivityGoal = null; // Number. Productivity goal of the gameplan. 
+        this.#timeTicks = []; // Array of integers. Precomputed milliseconds time-representations for the gameplan.
+        this.#productivityTicks = []; // Array of integers. Precomputed milliseconds time-representations for the productivity goal.
         this.#init = false; // Boolean. Initialization status of the gameplan.
         this.#timeGoalTimeout = null; // Interval. Interval for updating the time goal.
         this.#productivityGoalTimeout = null; // Interval. Interval for updating the productivity goal.
         this.#breakTimeout = null; // Interval. Interval for updating the break status.
+
+        this.#totalTimeCache = 0;
+        this.#totalBreakTimeCache = 0;
+    }
+
+    static get MINUTE() {
+        return 60000;
+    }
+    static get FIVE_MINUTES() {
+        return 300000;
+    }
+    static get HOUR() {
+        return 3600000;
+    }
+    static get DAY() {
+        return 86400000;
     }
 
     get startTime() { //returns the start time of the gameplan in "HH:MM" format.
-        return this.#dateToTimeString(this.#startTime);
+        if(this.#startTime === null) {
+            return null;
+        }
+        return Gameplan.#dateToTimeString(this.#startTime);
     }
     get startTimeMS() { //returns the start time of the gameplan in milliseconds
+        if(this.#startTime === null) {
+            return null;
+        }
         return this.#startTime.getTime();
     }    
     get endTime() { //returns the end time of the gameplan in "HH:MM" format.
-        return this.#dateToTimeString(this.#endTime);
+        if(this.#endTime === null) {
+            return null;
+        }
+        return Gameplan.#dateToTimeString(this.#endTime);
     }
     get endTimeMS() { //returns the end time of the gameplan in milliseconds
+        if(this.#endTime === null) {
+            return null;
+        };
         return this.#endTime.getTime();
     }
     get timeGoal() { //returns the time goal of the gameplan in "HH:MM" format
-        return `${(Math.floor((this.#timeGoal / (1000 * 60 * 60)) % 24) + '').padStart(2, '0')}:${(Math.floor((this.#timeGoal / (1000 * 60)) % 60) + '').padStart(2, '0')}`;
+        return `${(Math.floor((this.#timeGoal / Gameplan.HOUR) % 24) + '').padStart(2, '0')}:${(Math.floor((this.#timeGoal / Gameplan.MINUTE) % 60) + '').padStart(2, '0')}`;
     }
     get timeGoalMS() { //returns the time goal of the gameplan in milliseconds
         return this.#timeGoal;
@@ -46,21 +77,17 @@ class Gameplan {
         return this.#productivityGoal;
     }
     get tpmPercent() { //Time Per Minute in Percent. returns the percent per minute needed to reach the time goal
-        const totalTime = (this.#endTime - this.#startTime) - this.totalBreakTime;
-        return (this.#timeGoal / totalTime);
+        return (this.#timeGoal / this.#totalTimeCache);
     }
     get tpm() { //Time Per Minute. returns the milliseconds per minute needed to reach the time goal
-        const totalTime = (this.#endTime - this.#startTime) - this.totalBreakTime;
-        return (this.#timeGoal / totalTime) * 60 * 1000;
+        return (this.#timeGoal / this.#totalTimeCache) * Gameplan.MINUTE;
     }
     get minuteTick() { //return the millseconds between each tick of goal time.
-        const totalTime = (this.#endTime - this.#startTime) - this.totalBreakTime;
-        const totalGoalTicks = Math.round(this.#timeGoal / 60000); // Total goal time in minutes
-        return totalTime / totalGoalTicks; // Divide by intervals, not total ticks. Using the full tick-count to account for 0-based indexing, as well as the last tick for the end time.
+        const totalGoalTicks = Math.round(this.#timeGoal / Gameplan.MINUTE); // Total goal time in minutes
+        return this.#totalTimeCache / totalGoalTicks; // Divide by intervals, not total ticks. Using the full tick-count to account for 0-based indexing, as well as the last tick for the end time.
     }
     get productivityTick() { //returns the milliseconds for each productivity task.
-        const totalTime = (this.#endTime - this.#startTime) - this.totalBreakTime;
-        return totalTime / this.#productivityGoal;
+        return this.#totalTimeCache / this.#productivityGoal;
     }
     get timeTicks() { //returns the precomputed ticks for the gameplan
         return this.#timeTicks;
@@ -75,16 +102,16 @@ class Gameplan {
         return this.#productivityTicks.map(tick => new Date(tick));
     }
     get totalBreakTime() { //returns the total break time of the gameplan in milliseconds
-        return this.#breakTimeArray.length * 5 * 60 * 1000;
+        return this.#totalBreakTimeCache;
     }
     get totalActiveTime() { //returns the total active time of the gameplan in milliseconds
-        return (this.#endTime - this.#startTime) - this.totalBreakTime;
+        return this.#totalTimeCache;
     }
     get breakDate() { //returns the break times in an array.
         return this.#breakTimeArray;
     }
     get breakString() { //returns the break times in an array of "HH:MM" strings.
-        return this.#breakTimeArray.map(breakTime => this.#dateToTimeString(breakTime));
+        return this.#breakTimeArray.map(breakTime => Gameplan.#dateToTimeString(breakTime));
     }
     get breakMS() { //returns the break times in an array of "HH:MM" strings.
         return this.#breakTimeArray.map(breakTime => breakTime.getTime());
@@ -109,18 +136,18 @@ class Gameplan {
     
         // Check if we are currently in a break
         const lastBreakTime = breakTimesMS[lastPassedIndex];
-        const breakEnd = lastBreakTime + 5 * 60 * 1000; // Each break interval is 5 minutes
+        const breakEnd = lastBreakTime + Gameplan.FIVE_MINUTES; // Each break interval is 5 minutes
     
         if (nowMS < breakEnd) {
             // Currently on a break, calculate consecutive breaks
             let currentIndex = lastPassedIndex;
-            let totalBreakDuration = 5 * 60 * 1000; // Start with the duration of the current break
+            let totalBreakDuration = Gameplan.FIVE_MINUTES; // Start with the duration of the current break
     
             while (
                 currentIndex + 1 < breakTimesMS.length &&
-                breakTimesMS[currentIndex + 1] === breakTimesMS[currentIndex] + 5 * 60 * 1000
+                breakTimesMS[currentIndex + 1] === breakTimesMS[currentIndex] + Gameplan.FIVE_MINUTES
             ) {
-                totalBreakDuration += 5 * 60 * 1000;
+                totalBreakDuration += Gameplan.FIVE_MINUTES;
                 currentIndex++;
             }
     
@@ -142,24 +169,26 @@ class Gameplan {
 
     set startTime(newValue) { //sets the start time of the gameplan
         const oldValue = this.#startTime;
-        this.#startTime = this.#timeStringToDate(newValue);
+        this.#startTime = Gameplan.#timeStringToDate(newValue);
         if(this.#init) { //if the gameplan has already been initialized, reinitialize it.
             this.init();
         }
+        this.#totalTimeCache = (this.#endTime - this.#startTime) - this.totalBreakTime;
         window.dispatchEvent(new CustomEvent("gameplan-starttime-change", { detail: {originalValue: oldValue, newValue: this.#startTime } }));
     }
     set endTime(newValue) { //sets the end time of the gameplan
         const oldValue = this.#endTime;
-        this.#endTime = this.#timeStringToDate(newValue);
+        this.#endTime = Gameplan.#timeStringToDate(newValue);
         if(this.#init) {
             this.init();
         }
+        this.#totalTimeCache = (this.#endTime - this.#startTime) - this.totalBreakTime;
         window.dispatchEvent(new CustomEvent("gameplan-endtime-change", { detail: {originalValue: oldValue, newValue: this.#endTime } }));
     }
     set timeGoal(newValue) { //sets the time goal of the gameplan
         const oldValue = this.#timeGoal;
         const timeArr = newValue.split(':').map(Number);
-        this.#timeGoal = (timeArr[0] * 60 * 60 * 1000) + (timeArr[1] * 60 * 1000);
+        this.#timeGoal = (timeArr[0] * Gameplan.HOUR) + (timeArr[1] * Gameplan.MINUTE);
         if(this.#init) {
             this.init();
         }
@@ -189,7 +218,7 @@ class Gameplan {
 
     getCurrentGoal(time) {
         if (typeof time === "string") {
-            time = this.#timeStringToDate(time).getTime();
+            time = Gameplan.#timeStringToDate(time).getTime();
         }
         if (typeof time === "object") {
             time = time.getTime();
@@ -198,23 +227,15 @@ class Gameplan {
         const nowMS = time || Date.now();
     
         // Time Goal
-        const lastTimeTickIndex = this.#timeTicks.findIndex(tick => tick > nowMS) - 1;
-        const timeGoal = lastTimeTickIndex >= 0 ? lastTimeTickIndex * 60000 : 0;
-        const timeToNextTimeUpdateMS = lastTimeTickIndex + 1 < this.#timeTicks.length
-            ? this.#timeTicks[lastTimeTickIndex + 1] - nowMS
-            : this.#startTime.getTime() + 1000 * 60 * 60 * 24;
+        const { timeGoal, timeToNextTimeUpdateMS } = this.#timeGoalCalc(nowMS);
     
         // Productivity Goal
-        const lastProductivityTickIndex = this.#productivityTicks.findIndex(tick => tick > nowMS) - 1;
-        const productivityGoal = lastProductivityTickIndex >= 0 ? lastProductivityTickIndex + 1 : 0;
-        const timeToNextProductivityUpdateMS = lastProductivityTickIndex + 1 < this.#productivityTicks.length
-            ? this.#productivityTicks[lastProductivityTickIndex + 1] - nowMS
-            : this.#startTime.getTime() + 1000 * 60 * 60 * 24;
+        const { productivityGoal, timeToNextProductivityUpdateMS } = this.#productivityGoalCalc(nowMS);
     
         return {
             timeGoal: {
                 currentGoalTimeMS: timeGoal,
-                currentGoalTimeString: this.#msToTimeString(timeGoal),
+                currentGoalTimeString: Gameplan.#msToTimeString(timeGoal),
                 timeToNextUpdateMS: timeToNextTimeUpdateMS,
             },
             productivityGoal: {
@@ -224,6 +245,24 @@ class Gameplan {
         };
     }
     
+    #timeGoalCalc(nowMS) {
+        const lastTimeTickIndex = this.#timeTicks.findIndex(tick => tick > nowMS) - 1;
+        const timeGoal = lastTimeTickIndex >= 0 ? lastTimeTickIndex * Gameplan.MINUTE : 0;
+        const timeToNextTimeUpdateMS = lastTimeTickIndex + 1 < this.#timeTicks.length
+            ? this.#timeTicks[lastTimeTickIndex + 1] - nowMS
+            : this.#startTime.getTime() + Gameplan.DAY;
+        return { timeGoal, timeToNextTimeUpdateMS };
+    }
+
+    #productivityGoalCalc(nowMS) {
+        const lastProductivityTickIndex = this.#productivityTicks.findIndex(tick => tick > nowMS) - 1;
+        const productivityGoal = lastProductivityTickIndex >= 0 ? lastProductivityTickIndex + 1 : 0;
+        const timeToNextProductivityUpdateMS = lastProductivityTickIndex + 1 < this.#productivityTicks.length
+            ? this.#productivityTicks[lastProductivityTickIndex + 1] - nowMS
+            : this.#startTime.getTime() + Gameplan.DAY;
+        return { productivityGoal, timeToNextProductivityUpdateMS };
+    }
+
     #computeTicks(tickCategory) {
         const ticks = [];
         const startTimeMS = this.#startTime.getTime();
@@ -232,50 +271,53 @@ class Gameplan {
 
     
         // Calculate the number of expected ticks
-        const totalGoalTicks = tickCategory === "productivity" ? this.productivityGoal : Math.round(this.#timeGoal / 60000); // Total goal time in minutes
+        const totalGoalTicks = tickCategory === "productivity" ? this.productivityGoal : Math.round(this.#timeGoal / Gameplan.MINUTE); // Total goal time in minutes
         let currentTimeMS = startTimeMS;
     
         while (ticks.length < totalGoalTicks) {
             // Skip if the current time is within a break
             const isBreak = this.#breakTimeArray.some(
-                breakTime => currentTimeMS >= breakTime.getTime() && currentTimeMS < breakTime.getTime() + 5 * 60 * 1000
+                breakTime => currentTimeMS >= breakTime.getTime() && currentTimeMS < breakTime.getTime() + Gameplan.FIVE_MINUTES
             );
             if (!isBreak) {
                 ticks.push(currentTimeMS); // Add the current time to the array
                 currentTimeMS += minuteTickMS;
             }else{
-                currentTimeMS += 5 * 60 * 1000;
+                currentTimeMS += Gameplan.FIVE_MINUTES;
             }
         }
     
         // Ensure we add an extra tick for the end time due to 0-based indexing
         ticks.push(endTimeMS);
         // Add an "end of day" tick to ensure we always have a tick after the last working tick.
-        ticks.push(this.#startTime.getTime() - 1 - ((this.#startTime.getHours() * 60 * 60 * 1000) - (this.#startTime.getMinutes() * 60 * 1000)) + 1000 * 60 * 60 * 24);
+        ticks.push(this.#startTime.getTime() - 1 - ((this.#startTime.getHours() * Gameplan.HOUR) - (this.#startTime.getMinutes() * Gameplan.MINUTE)) + Gameplan.DAY);
     
         return ticks;
     }
 
     addBreakTime(newValue) { //adds a break time to the gameplan
-        this.#breakTimeArray.push(this.#timeStringToDate(newValue));
+        this.#breakTimeArray.push(Gameplan.#timeStringToDate(newValue));
         this.#breakTimeArray = this.#breakTimeArray.sort((a, b) => a - b);
         if(this.#init) {
             this.init();
         }
-        window.dispatchEvent(new CustomEvent("gameplan-breaktime-add", { detail: {valueName: 'breakTime', originalValue: -1, newValue: this.#timeStringToDate(newValue) } }));
+        this.#totalTimeCache = (this.#endTime - this.#startTime) - this.totalBreakTime;
+        this.#totalBreakTimeCache = this.#breakTimeArray.length * Gameplan.FIVE_MINUTES;
+        window.dispatchEvent(new CustomEvent("gameplan-breaktime-add", { detail: {valueName: 'breakTime', originalValue: -1, newValue: Gameplan.#timeStringToDate(newValue) } }));
     }
 
     removeBreakTime(newValue) { //removes a break time from the gameplan
-        const removeBreakDate = this.#timeStringToDate(newValue).getTime();
+        const removeBreakDate = Gameplan.#timeStringToDate(newValue).getTime();
         const index = this.breakMS.indexOf(removeBreakDate);
         if (index > -1) {
             this.#breakTimeArray.splice(index, 1);
         }
-        this.#breakTimeArray = this.#breakTimeArray.sort((a, b) => a - b);
         if(this.#init) {
             this.init();
         }
-        window.dispatchEvent(new CustomEvent("gameplan-breaktime-remove", { detail: {valueName: 'breakTime', originalValue: -1, newValue: this.#timeStringToDate(newValue) } }));
+        this.#totalTimeCache = (this.#endTime - this.#startTime) - this.totalBreakTime;
+        this.#totalBreakTimeCache = this.#breakTimeArray.length * Gameplan.FIVE_MINUTES;
+        window.dispatchEvent(new CustomEvent("gameplan-breaktime-remove", { detail: {valueName: 'breakTime', originalValue: -1, newValue: Gameplan.#timeStringToDate(newValue) } }));
     }
 
     #startSchedule() {
@@ -350,7 +392,7 @@ class Gameplan {
         window.dispatchEvent(tickEvent);
     }
 
-    #timeStringToDate(timeString) { //converts a time string in "HH:MM" format to a Date object
+    static #timeStringToDate(timeString) { //converts a time string in "HH:MM" format to a Date object
         const now = new Date();
         const [hours, minutes = 0, seconds = 0] = timeString.split(':').map(Number);
     
@@ -363,7 +405,7 @@ class Gameplan {
         return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds);
     }
 
-    #dateToTimeString(date) { //converts a Date object to a time string in "HH:MM" format
+    static #dateToTimeString(date) { //converts a Date object to a time string in "HH:MM" format
         if (!(date instanceof Date)) {
             throw new Error("Invalid Date object");
         }
@@ -374,9 +416,9 @@ class Gameplan {
         return `${hours}:${minutes}`;
     }
 
-    #msToTimeString(ms) {
-        const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((ms / (1000 * 60)) % 60);
+    static #msToTimeString(ms) {
+        const hours = Math.floor((ms / Gameplan.HOUR) % 24);
+        const minutes = Math.floor((ms / Gameplan.MINUTE) % 60);
         return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
     }    
 }

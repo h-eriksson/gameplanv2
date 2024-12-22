@@ -1,6 +1,7 @@
-(function () {
+//(function () {
 
     let milestoneTimeout; // Global variable to store the timeout reference
+    let milestoneScrollTimeout; // Global variable to store the timeout reference
     let milestoneCheck;
     let milestoneInterval = 5; // Default interval in minutes
     let darkmodeCheck;
@@ -199,8 +200,8 @@
             });
         }
     });
-
-    // Event handler to handle the tick-events of the the gameplan object
+    
+    // Event handler to handle the tick-events of the gameplan object
     window.addEventListener("gameplan-goaltime-tick", (event) => {
         // Update the UI with the current goal time
         const timeElement = document.getElementById('time');
@@ -208,27 +209,22 @@
 
         const timeProgress = document.getElementById("timeProgress");
 
-        // Reset the progress bar immediately
-        timeProgress.style.transitionDuration = "0s";
-        timeProgress.style.width = "0%";
-    
-        // Use requestAnimationFrame to force the browser to render the reset state
-        requestAnimationFrame(() => {
-            const elapsedRatio =
-                (gp.minuteTick - event.detail.timeGoal.timeToNextUpdateMS) / gp.minuteTick;
-    
-            // Set the current progress width without transition
-            timeProgress.style.width = `${elapsedRatio * 100}%`;
-    
-            // Apply the animation to 100% width
-            requestAnimationFrame(() => {
-                timeProgress.style.transitionProperty = "width";
-                timeProgress.style.transitionDuration = `${event.detail.timeGoal.timeToNextUpdateMS}ms`;
-                timeProgress.style.width = "100%";
-            });
-        });
+        // Calculate the elapsed ratio
+        const elapsedRatio =
+        (gp.minuteTick - event.detail.timeGoal.timeToNextUpdateMS) / gp.minuteTick;
+
+        // Reset the progress bar
+        timeProgress.style.transition = "none"; // Disable transitions for the reset
+        timeProgress.style.width = `${elapsedRatio * 100}%`;
+
+        // Force the reset to render before starting the new animation
+        setTimeout(() => {
+            // Start the animation
+            timeProgress.style.transition = `width ${event.detail.timeGoal.timeToNextUpdateMS}ms linear`;
+            timeProgress.style.width = "100%";
+        }, 100); // Small delay to ensure the reset is applied
     });
-    
+
     window.addEventListener("gameplan-productivity-tick", (event) => {
         // Update the UI with the current goal time
         const taskElement = document.getElementById('tasks');
@@ -240,21 +236,71 @@
         taskProgress.style.transitionDuration = "0s";
         taskProgress.style.width = "0%";
     
-        // Use requestAnimationFrame to force the browser to render the reset state
-        requestAnimationFrame(() => {
-            const elapsedRatio =
-                (gp.productivityTick - event.detail.productivityGoal.timeToNextUpdateMS) / gp.productivityTick;
-    
-            // Set the current progress width without transition
-            taskProgress.style.width = `${elapsedRatio * 100}%`;
-    
-            // Apply the animation to 100% width
-            requestAnimationFrame(() => {
-                taskProgress.style.transitionProperty = "width";
-                taskProgress.style.transitionDuration = `${event.detail.productivityGoal.timeToNextUpdateMS}ms`;
-                taskProgress.style.width = "100%";
-            });
+        // Calculate the elapsed ratio
+        const elapsedRatio =
+        (gp.productivityTick - event.detail.productivityGoal.timeToNextUpdateMS) / gp.productivityTick;
+
+        // Reset the progress bar
+        taskProgress.style.transition = "none"; // Disable transitions for the reset
+        taskProgress.style.width = `${elapsedRatio * 100}%`;
+
+        // Force the reset to render before starting the new animation
+        setTimeout(() => {
+            // Start the animation
+            taskProgress.style.transition = `width ${event.detail.productivityGoal.timeToNextUpdateMS}ms linear`;
+            taskProgress.style.width = "100%";
+        }, 100); // Small delay to ensure the reset is applied
+    });
+
+    // Event listener for the milestone-tick event. As milestones are handled by the UI, it not a Gameplan-event but an Operator-event.
+    window.addEventListener("operator-milestone-tick", (event) => {
+        const milestones = document.querySelectorAll(".milestone");
+        const currentTime = new Date().getTime();
+
+        Array.from(milestones).forEach((milestone) => {
+            
+            //Get the time of the milestone
+            const milestoneTime = parseInt(milestone.dataset.time, 10);
+
+            //If it's the milestone that should be centered
+            if (milestoneTime > currentTime - milestoneInterval * Gameplan.MINUTE && milestoneTime < currentTime) {
+                // Center the milestone
+                milestone.scrollIntoView({
+                    behavior: event.detail.initialization ? "auto" : "smooth",
+                    block: "center",
+                });
+
+                // Calculate the time to the next milestone
+                const timeToNextMilestone = (milestoneTime + Gameplan.FIVE_MINUTES) - currentTime;
+                const milestoneProgress = document.getElementById("milestoneProgress");
+                milestoneProgress.style.display = "block";
+                const elapsedRatio = (currentTime - milestoneTime) / (milestoneInterval * Gameplan.MINUTE);
+
+                // Reset the progress bar
+                milestoneProgress.style.transition = "none"; // Disable transitions for the reset
+                milestoneProgress.style.width = `${elapsedRatio * 100}%`;
+
+                // Force the reset to render before starting the new animation
+                setTimeout(() => {
+                    // Start the animation
+                    milestoneProgress.style.transition = `width ${timeToNextMilestone}ms linear`;
+                    milestoneProgress.style.width = "100%";
+                    milestoneTimeout = setTimeout(() => {
+                        window.dispatchEvent(new CustomEvent("operator-milestone-tick", { detail: {initialization: false} }));
+                    }, timeToNextMilestone);
+                }, 100); // Small delay to ensure the reset is applied
+            }
         });
+    });
+
+    document.getElementById("milestoneList").addEventListener('mouseleave', () => {
+        milestoneScrollTimeout = setTimeout(() => {
+            window.dispatchEvent(new CustomEvent("operator-milestone-tick", { detail: { initialization: false } }));
+        }, 2000); // 2-second delay
+    });
+    
+    document.getElementById("milestoneList").addEventListener('mouseenter', () => {
+        clearTimeout(milestoneScrollTimeout); // Cancel the timeout if the mouse re-enters
     });
 
     // Function to update the brightness
@@ -313,7 +359,7 @@
         // The milestones needs 2 padded elements at the start of the list, and at the end of the list, so that the current time, if it's the first or last will center properly.
 
         // Check if the timeTicks and productivityTicks are defined
-        if(gp.timeTicks === undefined || gp.productivityTicks === undefined){
+        if(gp.timeTicks === undefined || gp.productivityTicks === undefined || gp.startTime === null || gp.endTime === null){
             return;
         };
 
@@ -324,6 +370,10 @@
         // Set the title of the milestone section and clear the existing milestones.
         document.getElementById("milestoneTitleMinutes").innerHTML = milestoneInterval;
         const milestoneSection = document.getElementById("milestoneList");
+        const milestoneProgress = document.getElementById("milestoneProgress");
+        milestoneSection.addEventListener('mousewheel', () => {
+            milestoneProgress.style.display = "none";
+        });
         milestoneSection.innerHTML = "";
 
         // Add milestones every interval minutes
@@ -350,7 +400,8 @@
 
         milestoneSection.appendChild(endMilestone);
 
-        centerMilestones(true);
+        window.dispatchEvent(new CustomEvent("operator-milestone-tick", { detail: {initialization: true} }));
+        //centerMilestones(true);
     }
 
     function centerMilestones(initialization = false) {
@@ -361,7 +412,7 @@
         Array.from(milestones).forEach((milestone) => {
             const milestoneTime = parseInt(milestone.dataset.time, 10);
     
-            if (milestoneTime > currentTime - milestoneInterval * 60 * 1000 && milestoneTime < currentTime) {
+            if (milestoneTime > currentTime - milestoneInterval * Gameplan.MINUTE && milestoneTime < currentTime) {
                 // Center the milestone
                 milestone.scrollIntoView({
                     behavior: initialization ? "auto" : "smooth",
@@ -385,7 +436,7 @@
                     // Use requestAnimationFrame to force the browser to render the reset state
                     requestAnimationFrame(() => {
                         const elapsedRatio =
-                            (currentTime - milestoneTime) / (milestoneInterval * 60 * 1000);
+                            (currentTime - milestoneTime) / (milestoneInterval * Gameplan.MINUTE);
                 
                         // Set the current progress width without transition
                         milestoneProgress.style.width = `${elapsedRatio * 100}%`;
@@ -497,4 +548,4 @@
     let gp = new Gameplan();
 
     initialize();
-})();
+//})();
